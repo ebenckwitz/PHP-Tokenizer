@@ -64,7 +64,7 @@ class Fall21PHPProg
         $this->currentToken = $this->t->nextToken();
         while ($this->currentToken->type !== TokenType::RSQUAREBRACKET && $this->currentToken->type !== TokenType::EOF)
         {
-			$this->evalStatement($oneIndent, true);
+			$this->evalStatement($this->oneIndent, true);
         }
         echo "]" . PHP_EOL;
         $this->currentToken = $this->t->nextToken();
@@ -123,7 +123,7 @@ class Fall21PHPProg
         {
 		   $this->map[$key] = $val;
         }
-		print_r($map);
+		//print_r($map);
     }
 
     function evalConditional($indent, $exec)
@@ -133,7 +133,6 @@ class Fall21PHPProg
         // We know charArr[$i] is "if"
         echo $indent . "if ";
         $this->currentToken = $this->t->nextToken();
-		//echo "currenttoken: " .$this->currentToken->type;
 		$trueCondition = $this->evalCondition($exec);
 
         if ($this->currentToken->type !== TokenType::LBRACKET)
@@ -183,7 +182,7 @@ class Fall21PHPProg
                     $this->evalStatement($indent . $this->oneIndent, $exec);
                 }
             }
-            if ($this->currentToken === TokenType::RBRACKET)
+            if ($this->currentToken->type === TokenType::RBRACKET)
             {
                 echo $indent . "}". PHP_EOL;
                 $this->currentToken = $this->t->nextToken();
@@ -216,7 +215,7 @@ class Fall21PHPProg
             if ($v1 === null) {
                 //$v1 = $this->map[$key];
 				//echo "inside here";
-				throw new EvalSectionException("undefined variable" .PHP_EOL);
+				throw new EvalSectionException("undefined variableooooo" .PHP_EOL);
             }
             /*else {
                 throw new EvalSectionException("undefined variablelooooooooo");
