@@ -198,7 +198,7 @@ class Fall21PHPProg
     {
         //global $charArr, $i, $value, $map, $currentToken, $t;
         // <condition> ::= ID ('<' | '>' | '=') INT
-        $v1; // value associated with ID
+        $v1 = null; // value associated with ID
         if ($this->currentToken->type !== TokenType::ID)//TokenType::ID)
         {
             throw new EvalSectionException("identifier expected" .PHP_EOL);
@@ -210,16 +210,18 @@ class Fall21PHPProg
 		echo "Key: " . $key . PHP_EOL;*/
         if ($exec)
         {
-			$v1 = $this->map[$key];
-			//echo "map key: " .$this->map[$key]. " END"; 
-            if ($v1 === null) {
-                //$v1 = $this->map[$key];
-				//echo "inside here";
-				throw new EvalSectionException("undefined variableooooo" .PHP_EOL);
+            if (array_key_exists($key, $this->map)) 
+			{
+                $v1 = $this->map[$key];
             }
-            /*else {
-                throw new EvalSectionException("undefined variablelooooooooo");
-            }*/
+            else 
+			{
+				$v1 = null;
+            }
+			if ($v1 === null)
+			{
+				throw new EvalSectionException("undefined variable" . PHP_EOL);
+			}
         }
         $this->currentToken = $this->t->nextToken();
         $operator = $this->currentToken->type;
@@ -231,9 +233,10 @@ class Fall21PHPProg
         $this->currentToken = $this->t->nextToken();
         if ($this->currentToken->type !== TokenType::INTS)
         {
-            throw new EvalSectionException("integer expected" >PHP_EOL);
+            throw new EvalSectionException("integer expected" .PHP_EOL);
         }
-        echo $this->currentToken->value . " ";
+		$value = intval($this->currentToken->value);
+		echo $value . " ";
         $this->currentToken = $this->t->nextToken();
         // compute return value
         if (!$exec)
